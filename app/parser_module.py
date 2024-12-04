@@ -1,18 +1,23 @@
 from lark import Lark
 
 gramatica = """
-    ?inicio: expresion
-    ?expresion: expresion "+" termino   -> suma
-              | expresion "-" termino   -> resta
-              | termino
-    ?termino: termino "*" factor        -> multiplicacion
-            | termino "/" factor        -> division
-            | factor
-    ?factor: "(" expresion ")"
-           | NUMERO                     -> numero
-    %import common.NUMBER -> NUMERO
+    ?start: expr
+
+    ?expr: expr "+" term   -> sumar
+         | expr "-" term   -> restar
+         | term
+
+    ?term: term "*" factor -> multiplicar
+         | term "/" factor -> dividir
+         | factor
+
+    ?factor: "(" expr ")"              // Expresión entre paréntesis
+           | "-" factor                -> negativo // Negativo explícito
+           | NUMBER                    -> numero
+
+    %import common.NUMBER
     %import common.WS_INLINE
     %ignore WS_INLINE
 """
 
-parser = Lark(gramatica, parser='earley', debug=False)
+parser = Lark(gramatica, parser='lalr', debug=False)

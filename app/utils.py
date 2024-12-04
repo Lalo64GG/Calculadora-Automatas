@@ -1,15 +1,21 @@
+import pydot
+from lark.tree import Tree
 import os
 import logging
-from lark.tree import Tree
-import pydot
 
 logger = logging.getLogger(__name__)
 
-# Directorio para guardar imágenes
+# Directorio para guardar imágenes generadas
 IMAGE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static/images')
-os.makedirs(IMAGE_DIR, exist_ok=True)
+if not os.path.exists(IMAGE_DIR):
+    os.makedirs(IMAGE_DIR)
+    logger.debug("Ruta absoluta de IMAGE_DIR: %s", os.path.abspath(IMAGE_DIR))
+
 
 def tree_to_pydot(tree: Tree) -> pydot.Dot:
+    """
+    Convierte un árbol de Lark a un objeto Pydot para su visualización.
+    """
     graph = pydot.Dot(graph_type='graph')
     node_id = 0
 
@@ -35,12 +41,17 @@ def tree_to_pydot(tree: Tree) -> pydot.Dot:
     return graph
 
 def visualizar_arbol(tree: Tree, nombre_archivo: str = "arbol_expresion.png") -> str:
+    """
+    Genera una imagen PNG del árbol de análisis sintáctico usando Graphviz.
+    Retorna la ruta relativa de la imagen para servirla en la web.
+    """
     try:
         graph = tree_to_pydot(tree)
         filename = "arbol.png"
         image_path = os.path.join(IMAGE_DIR, filename)
         graph.write_png(image_path)
+        logger.debug("Árbol guardado como %s", filename)
         return f"images/{filename}"
     except Exception as e:
-        logger.error("Error al generar la imagen: %s", e)
+        logger.error("Error al generar la imagen del árbol: %s", e)
         return None

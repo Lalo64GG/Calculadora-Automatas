@@ -4,196 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora Aritmética</title>
-    <style>
-        /* Estilos base */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #121212, #1e1e1e);
-            color: #f1f1f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 480px;
-            width: 90%;
-            background: #2a2a2a;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-            padding: 24px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 16px;
-            color: #ffcc00;
-        }
-
-        p {
-            font-size: 0.9rem;
-            margin-bottom: 24px;
-            color: #aaa;
-        }
-
-        /* Input */
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 8px;
-            background: #1f1f1f;
-            color: #ffcc00;
-            text-align: right;
-            outline: none;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Botones */
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 16px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 8px;
-            background: #333;
-            color: #ffcc00;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-
-        button:hover {
-            background: #ffcc00;
-            color: #333;
-            transform: scale(1.05);
-        }
-
-        .button-clear {
-            background: #d9534f;
-        }
-
-        .button-clear:hover {
-            background: #c9302c;
-        }
-
-        .button-equal {
-            background: #5cb85c;
-            grid-column: span 2;
-        }
-
-        .button-equal:hover {
-            background: #4cae4c;
-        }
-
-        /* Sección de resultados */
-        .result {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 8px;
-            background: #1f1f1f;
-            color: #5cb85c;
-            font-size: 1rem;
-            font-weight: bold;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Tabla */
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            background: #1f1f1f;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #333;
-            text-align: left;
-            color: #f1f1f1;
-        }
-
-        th {
-            background: #333;
-            color: #ffcc00;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="container">
-        <h1>Calculadora</h1>
-        <p>Por favor ingrese una operación matemática</p>
-        <form id="calcForm">
-            <input
-                type="text"
-                name="expresion"
-                id="expresion"
-                placeholder="Ejemplo: (2+2)/4"
-                readonly
-            >
-            <div class="button-grid">
-                <!-- Botones -->
-                {% for btn in ['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', '(',')', '+'] %}
-                    <button type="button" onclick="appendToExpression('{{ btn }}')">
-                        {{ btn }}
-                    </button>
-                {% endfor %}
-                <button type="button" class="button-clear" onclick="clearExpression()">C</button>
-                <button type="submit" class="button-equal">=</button>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center">
+    <div class="bg-gray-800 text-white rounded-xl shadow-lg w-96 p-6">
+        <!-- Pantalla -->
+
+        <!-- Teclado -->
+        <form method="POST" action="/">
+            <div class="bg-gray-700 rounded-lg px-4 py-3 mb-4">
+                <input
+                    type="text"
+                    name="expresion"
+                    id="pantalla"
+                    placeholder="0"
+                    value="{{ expresion }}"
+                    readonly
+                    class="w-full bg-transparent text-right text-2xl text-white focus:outline-none"
+                >
+            </div>
+            <div class="grid grid-cols-4 gap-2">
+                <!-- Botones numéricos -->
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('7')">7</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('8')">8</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('9')">9</button>
+                <button type="button" class="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-400" onclick="insertar('/')">÷</button>
+                
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('4')">4</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('5')">5</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('6')">6</button>
+                <button type="button" class="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-400" onclick="insertar('*')">×</button>
+                
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('1')">1</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('2')">2</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('3')">3</button>
+                <button type="button" class="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-400" onclick="insertar('-')">−</button>
+                
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('0')">0</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('.')">.</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('(')">(</button>
+                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar(')')">)</button>
+                
+                <button type="button" class="bg-red-500 text-white py-3 rounded-lg hover:bg-red-400 col-span-2" onclick="limpiar()">C</button>
+                <button type="button" class="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-400" onclick="insertar('+')">+</button>
+                <button type="submit" class="bg-green-500 text-white py-3 rounded-lg hover:bg-green-400">=</button>
             </div>
         </form>
 
         <!-- Resultado -->
         {% if resultado %}
-            <div class="result">
-                Resultado: {{ resultado }}
-            </div>
+        <div class="mt-6 bg-green-600 text-green-100 p-3 rounded-lg shadow">
+            <strong>Resultado:</strong> {{ resultado }}
+        </div>
         {% endif %}
 
-        <!-- Tabla de Tokens -->
-        {% if tokens %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Token</th>
-                        <th>Tipo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for token in tokens %}
-                        <tr>
-                            <td>{{ token[1] }}</td>
-                            <td>{{ token[0] }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <!-- Árbol -->
+        {% if imagen %}
+        <div class="mt-6">
+            <h2 class="text-sm font-semibold text-gray-300 mb-2">Árbol Generado:</h2>
+            <div class="bg-gray-700 p-3 rounded-lg shadow-lg">
+                <img src="{{ url_for('static', filename=imagen) }}"
+                     alt="Árbol de Análisis Sintáctico"
+                     class="w-full rounded"
+                >
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Mensaje de error -->
+        {% if resultado == "Error en la expresión. Por favor, verifica la sintaxis." %}
+        <div class="mt-6 bg-red-600 text-red-100 p-3 rounded-lg shadow">
+            {{ resultado }}
+        </div>
         {% endif %}
     </div>
 
     <script>
-        function appendToExpression(char) {
-            const input = document.getElementById('expresion');
-            input.value += char;
+        const pantalla = document.getElementById('pantalla');
+
+        function insertar(valor) {
+            if (pantalla.value === '0' || pantalla.value === '') {
+                pantalla.value = valor;
+            } else {
+                pantalla.value += valor;
+            }
         }
-        function clearExpression() {
-            const input = document.getElementById('expresion');
-            input.value = '';
+
+        function limpiar() {
+            pantalla.value = '';
         }
     </script>
 </body>
