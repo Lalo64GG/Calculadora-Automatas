@@ -23,7 +23,7 @@ def create_app():
                 try:
                     # Parsear la expresión
                     tree = parser.parse(expresion)
-                    logger.debug("Árbol de análisis sintáctico:\n%s", tree.pretty())
+                    logger.debug("Árbol:\n%s", tree.pretty())
 
                     # Visualizar el árbol y obtener la ruta de la imagen
                     imagen = visualizar_arbol(tree)
