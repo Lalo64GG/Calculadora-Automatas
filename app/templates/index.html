@@ -7,76 +7,87 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 min-h-screen flex items-center justify-center">
-    <div class="bg-gray-800 text-white rounded-xl shadow-lg w-96 p-6">
-        <!-- Pantalla -->
-
-        <!-- Teclado -->
-        <form method="POST" action="/">
-            <div class="bg-gray-700 rounded-lg px-4 py-3 mb-4">
-                <input
-                    type="text"
-                    name="expresion"
-                    id="pantalla"
-                    placeholder="0"
-                    value="{{ expresion }}"
-                    readonly
-                    class="w-full bg-transparent text-right text-2xl text-white focus:outline-none"
-                >
-            </div>
-            <div class="grid grid-cols-4 gap-2">
-                <!-- Botones numéricos -->
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('7')">7</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('8')">8</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('9')">9</button>
-                <button type="button" class="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-400" onclick="insertar('/')">÷</button>
-                
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('4')">4</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('5')">5</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('6')">6</button>
-                <button type="button" class="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-400" onclick="insertar('*')">×</button>
-                
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('1')">1</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('2')">2</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('3')">3</button>
-                <button type="button" class="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-400" onclick="insertar('-')">−</button>
-                
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('0')">0</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('.')">.</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar('(')">(</button>
-                <button type="button" class="bg-gray-600 text-white py-3 rounded-lg hover:bg-gray-500" onclick="insertar(')')">)</button>
-                
-                <button type="button" class="bg-red-500 text-white py-3 rounded-lg hover:bg-red-400 col-span-2" onclick="limpiar()">C</button>
-                <button type="button" class="bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-400" onclick="insertar('+')">+</button>
-                <button type="submit" class="bg-green-500 text-white py-3 rounded-lg hover:bg-green-400">=</button>
-            </div>
-        </form>
-
-        <!-- Resultado -->
-        {% if resultado %}
-        <div class="mt-6 bg-green-600 text-green-100 p-3 rounded-lg shadow">
-            <strong>Resultado:</strong> {{ resultado }}
-        </div>
-        {% endif %}
-
-        <!-- Árbol -->
+    <div class="flex flex-col lg:flex-row items-start gap-8">
+        <!-- Imagen del árbol -->
         {% if imagen %}
-        <div class="mt-6">
-            <h2 class="text-sm font-semibold text-gray-300 mb-2">Árbol Generado:</h2>
-            <div class="bg-gray-700 p-3 rounded-lg shadow-lg">
+        <div class="bg-gray-800 text-white rounded-xl shadow-lg p-6 w">
+            <h2 class="text-lg font-semibold text-center mb-4">Árbol Generado</h2>
+            <div class="bg-gray-700 p-4 rounded-lg shadow">
                 <img src="{{ url_for('static', filename=imagen) }}"
                      alt="Árbol de Análisis Sintáctico"
-                     class="w-full rounded"
-                >
+                     class="w-full h-auto rounded">
             </div>
         </div>
-        {% endif %}
-
-        <!-- Mensaje de error -->
-        {% if resultado == "Error en la expresión. Por favor, verifica la sintaxis." %}
-        <div class="mt-6 bg-red-600 text-red-100 p-3 rounded-lg shadow">
-            {{ resultado }}
+        {% else %}
+        <div class="text-gray-500 text-center">
+            <p>No se ha generado ningún árbol todavía.</p>
         </div>
         {% endif %}
+        
+
+        <!-- Calculadora -->
+        <div class="bg-gray-800 text-white rounded-xl shadow-lg w-96 p-6">
+            <!-- Pantalla -->
+            <form method="POST" action="/">
+                <div class="bg-gray-700 rounded-lg px-4 py-3 mb-6 shadow-md">
+                    <input
+                        type="text"
+                        name="expresion"
+                        id="pantalla"
+                        placeholder="0"
+                        value="{{ expresion }}"
+                        readonly
+                        class="w-full bg-transparent text-right text-3xl text-white focus:outline-none"
+                    >
+                </div>
+
+                <!-- Teclado -->
+                <div class="grid grid-cols-4 gap-3">
+                    <!-- Botones numéricos -->
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('7')">7</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('8')">8</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('9')">9</button>
+                    <button type="button" class="bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 shadow-md" onclick="insertar('/')">÷</button>
+
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('4')">4</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('5')">5</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('6')">6</button>
+                    <button type="button" class="bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 shadow-md" onclick="insertar('*')">×</button>
+
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('1')">1</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('2')">2</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('3')">3</button>
+                    <button type="button" class="bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 shadow-md" onclick="insertar('-')">−</button>
+
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('0')">0</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('.')">.</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar('(')">(</button>
+                    <button type="button" class="bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-600 shadow-md" onclick="insertar(')')">)</button>
+
+                    <!-- Botones para funciones matemáticas -->
+                    <button type="button" class="bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-500 shadow-md" onclick="insertar('sin(')">sin</button>
+                    <button type="button" class="bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-500 shadow-md" onclick="insertar('cos(')">cos</button>
+                    <button type="button" class="bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-500 shadow-md" onclick="insertar('tan(')">tan</button>
+                    <button type="button" class="bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-500 shadow-md" onclick="insertar('sec(')">sec</button>
+                    <button type="button" class="bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-500 shadow-md" onclick="insertar('cot(')">cot</button>
+                    <button type="button" class="bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-500 shadow-md" onclick="insertar('floor(')">floor</button>
+
+                    <button type="button" class="bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 shadow-md" onclick="insertar('+')">+</button>
+
+                    <!-- Borrar último dígito -->
+                    <button type="button" class="bg-yellow-500 text-white py-3 rounded-lg hover:bg-yellow-400 shadow-md" onclick="borrar()">⌫</button>
+                    <button type="button" class="bg-red-500 text-white py-3 rounded-lg hover:bg-red-400 shadow-md" onclick="limpiar()">C</button>
+                    <button type="submit" class="bg-green-600 text-white py-3 rounded-lg hover:bg-green-500 shadow-md col-span-2">=</button>
+                </div>
+            </form>
+
+            <!-- Resultado -->
+            {% if resultado is not none %}
+            <div class="mt-6 bg-green-600 text-green-100 p-3 rounded-lg shadow">
+                <strong>Resultado:</strong> {{ resultado }}
+            </div>
+            {% endif %}
+        </div>
     </div>
 
     <script>
@@ -92,6 +103,10 @@
 
         function limpiar() {
             pantalla.value = '';
+        }
+
+        function borrar() {
+            pantalla.value = pantalla.value.slice(0, -1) || '0';
         }
     </script>
 </body>

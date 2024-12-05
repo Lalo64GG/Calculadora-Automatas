@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request  # Importar 'request' aquí
+from flask import Flask, render_template, request
 from .parser_module import parser
 from .transformer_module import Calculadora
 from .utils import visualizar_arbol
@@ -23,17 +23,15 @@ def create_app():
                 try:
                     # Parsear la expresión
                     tree = parser.parse(expresion)
-                    logger.debug("Árbol:\n%s", tree.pretty())
+                    logger.debug("Árbol generado:\n%s", tree.pretty())
 
-                    # Visualizar el árbol y obtener la ruta de la imagen
+                    # Visualizar el árbol
                     imagen = visualizar_arbol(tree)
                     logger.debug("Imagen generada: %s", imagen)
 
                     # Evaluar la expresión
                     calc = Calculadora()
-                    resultado = calc.transform(tree)
-                    print(imagen)
-
+                    resultado = calc.transform(tree)  # Transformar el árbol en un resultado
                     logger.debug("Resultado: %s", resultado)
                 except Exception as e:
                     logger.error("Error al procesar la expresión: %s", e)
